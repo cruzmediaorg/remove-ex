@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-app-boilerplate",
-    "slug": "expo-app-boilerplate",
+    "name": "remove-ex",
+    "slug": "remove-ex",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cqjack.expoappboilerplate",
+      "bundleIdentifier": "com.cruzmedia.removeex",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.cqjack.expoappboilerplate"
+      "package": "com.cruzmedia.removeex"
     },
     "web": {
       "bundler": "metro",
@@ -47,7 +47,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "e55fcdea-13e2-4c3b-a4c3-59c174184eb5"
+        "projectId": "c2fedd6f-821e-4d22-8974-532981fc637f"
       }
     }
   }

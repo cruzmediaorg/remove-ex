@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-export default function Layout() {
+export default function OnboardingLayout() {
   return (
     <SafeAreaProvider>
       <Stack
@@ -13,7 +13,9 @@ export default function Layout() {
             backgroundColor: 'transparent',
           },
         }}
-      />
+      >
+        <Stack.Screen name="index" />
+      </Stack>
     </SafeAreaProvider>
   );
 } 

@@ -1,18 +1,20 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter, useSegments } from 'expo-router';
+import { useSegments, useRouter } from 'expo-router';
 
 type OnboardingContextType = {
   isOnboarded: boolean;
-  setIsOnboarded: (value: boolean) => void;
+  isLoading: boolean;
+  setIsOnboarded: (value: boolean) => Promise<void>;
 };
 
 const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'hasCompletedOnboarding';
+const STORAGE_KEY = 'isOnboarded';
 
 export function OnboardingProvider({ children }: { children: React.ReactNode }) {
-  const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
+  const [isOnboarded, setIsOnboarded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const segments = useSegments();
   const router = useRouter();
 
@@ -21,16 +23,21 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   }, []);
 
   useEffect(() => {
-    if (isOnboarded === null) return;
+    if (isLoading) return;
 
     const inAuthGroup = segments[0] === 'onboarding';
 
     if (!isOnboarded && !inAuthGroup) {
-      router.replace('/onboarding');
+      // Use setTimeout to ensure navigation happens after initial render
+      setTimeout(() => {
+        router.push('/onboarding');
+      }, 0);
     } else if (isOnboarded && inAuthGroup) {
-      router.replace('/');
+      setTimeout(() => {
+        router.push('/');
+      }, 0);
     }
-  }, [isOnboarded, segments]);
+  }, [isOnboarded, segments, isLoading]);
 
   const checkOnboardingStatus = async () => {
     try {
@@ -38,13 +45,14 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       setIsOnboarded(value === 'true');
     } catch (error) {
       console.error('Error checking onboarding status:', error);
-      setIsOnboarded(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleSetIsOnboarded = async (value: boolean) => {
+  const setOnboardingStatus = async (value: boolean) => {
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, String(value));
+      await AsyncStorage.setItem(STORAGE_KEY, value.toString());
       setIsOnboarded(value);
     } catch (error) {
       console.error('Error setting onboarding status:', error);
@@ -54,8 +62,9 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   return (
     <OnboardingContext.Provider
       value={{
-        isOnboarded: isOnboarded ?? false,
-        setIsOnboarded: handleSetIsOnboarded,
+        isOnboarded,
+        isLoading,
+        setIsOnboarded: setOnboardingStatus,
       }}>
       {children}
     </OnboardingContext.Provider>

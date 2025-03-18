@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "remove-ex",
+    "name": "Remove Ex",
     "slug": "remove-ex",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,7 +12,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.cruzmedia.removeex",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSPhotoLibraryUsageDescription": "Allow Remove Ex to access your photos to select images for editing.",
+        "NSCameraUsageDescription": "Allow Remove Ex to access your camera to take photos for editing."
       }
     },
     "android": {
